@@ -1,14 +1,19 @@
+
+require('dotenv').config(); // Load environment variables from .env file
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = process.env.PORT || 5000;
 
 const mongoDB = require("./db");
 mongoDB(); // Connect to MongoDB
 
+const port = process.env.PORT || 5000;
+const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
+
 // Enable CORS for all routes
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: allowedOrigin,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -34,10 +39,8 @@ app.use((err, req, res, next) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
-
-
 
 
 
